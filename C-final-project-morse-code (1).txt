@@ -1,0 +1,127 @@
+#include <iostream>
+#include <string>
+#include <cctype>
+#include<windows.h>
+using namespace std;
+string englishtomorse(string, string[]);
+string morsetoenglish(string, string[]);
+int main()
+{
+	system("COLOR 2F");
+	cout << "   ##        ## ####### ##         ######    ######   ##        ## #######   " << endl;	Sleep(100);
+	cout << "   ##        ## ##      ##        ##     #  ##    ##  ###      ### ##        " << endl;	Sleep(100);
+	cout << "   ##   ##   ## #####   ##        ##        ##    ##  ## ##  ## ## #####     " << endl;	Sleep(100);
+	cout << "   ## ##  ## ## #####   ##        ##        ##    ##  ##   ##   ## #####     " << endl;	Sleep(100);
+	cout << "   ####    #### ##      ##        ##     #  ##    ##  ##        ## ##        " << endl;	Sleep(100);
+	cout << "   ##        ## ####### ########   ######    ######   ##        ## #######   " << endl;	Sleep(100);
+	cout << " ************************** A COMBINED EFFORT BY ***************************************************" << endl;
+	cout << " ************************** USAMA ALI and MUHAMMAD SHARIZ  :  ME-B ***************************************************" << endl;
+
+
+	//declaring Variables
+	char alphabets[26] = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
+	string morse[26] = { ".-", "-...", "-.-.", "-..", ".", "..-.", "--.", "....", "..", ".---", "-.-", ".-..", "--", "-.", "---", ".--.", "--.-", ".-.", "...", "-", "..-", "...-", ".--", "-..-", "-.--", "--.." };
+	string text, morsecode;
+	char choice;
+	char repeat = 'y';
+	//Using while loop for repetation
+	while (repeat == 'y')
+	{
+		system("COLOR 4F");
+		cout << "Select 1 to decode English text to Morse code." << endl;
+		cout << "Select 2 to decode Morse code to English text" << endl;
+		cin >> choice;
+
+		if (choice == '1')
+		{
+			system("COLOR 6F");
+			cout << "NOTE. DO NOT INPUT A NON ENGLISH CHARACTER. THIS TRANSLATOR EXCLUSIVELY TRANSLATES ENGLISH TEXTS (CAPITALIZED AND NON CAPITALIZED).\n";
+			cout << "Enter a text to translate, each word seperated by a space if you want to translate more than one word: " << endl;
+			cin.get();
+			getline(cin, text);
+			Sleep(100);
+			system("COLOR 4E");
+			Sleep(100);
+			cout << "TEXT: " << text << endl;
+
+			for (int i = 0; i < 10; i++)
+			{
+				system("CLS");
+				Sleep(200);
+
+				cout << "MORSE CODE: " << englishtomorse(text, morse) << endl;
+			}
+		}
+		else if (choice == '2')
+		{
+			system("COLOR 8F");
+			cout << "Enter a morsecode to translate, each letter code seperated by a space." << endl;
+			cout << "If you want to translate more than one word, have 1 spaces between each word(for example, ... -- - ...   ... -- - ...) : " << endl;
+			cin.get();
+			getline(cin, morsecode);
+			system("COLOR 2E");
+			Sleep(100);
+			cout << "MORSECODE: " << morsecode << endl;
+			for (int i = 0; i < 10; i++)
+			{
+				system("CLS");
+				Sleep(200);
+				cout << "TEXT: " << morsetoenglish(morsecode, morse) << endl;
+			}
+		}
+		Sleep(200);
+		cout << "Would you like to continue? Press y to repeat. Press any other key to exit. ";
+		cin >> repeat;
+	}
+	return 0;
+}
+
+string englishtomorse(string text, string morse[])
+{
+	int textlength = text.length();
+	string morsevalue;
+	string spacesbtwletters = " ";
+	string spacesbtwwords = "";
+	for (int k = 0; k<textlength; k++)
+	{
+		if (text[k] != ' ') //if the word(s) did not encounter a space
+		{
+			text[k] = toupper(text[k]); //upper case letters and lower case letters are the same hence have the same appropriate morse code.
+			morsevalue = spacesbtwletters += morse[text[k] - 'A'] + " ";//A is the first value of the array. by subtracting its finding the appropriate morse code for each letters
+		}
+		if (text[k] == ' ')
+		{
+			spacesbtwletters += spacesbtwwords;//adds 1 spaces when there is a space between words
+		}
+	}
+	return morsevalue;
+}
+
+string morsetoenglish(string morsecode, string morse[])
+{
+	int characters = 26;
+	string lettersvalue = ""; //output value for the function
+	int index = 0;
+	int const size = morsecode.size();
+
+	while (index < size)
+	{
+		string letter = "";
+		while (morsecode[index] != ' ' && index < size)
+		{
+			letter += morsecode[index++];
+		}
+
+		//finding this code in the morse alphabet
+		int position = 0;
+		while (morse[position] != letter && position < 26)
+		{
+			++position;
+		}
+
+		lettersvalue += 'A' + position;
+		++index; //to get rid of the space character.
+
+	}
+	return lettersvalue;
+}
